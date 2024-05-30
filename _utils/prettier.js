@@ -1,13 +1,9 @@
-const prettier = require("prettier");
+
 const fs = require("fs");
 const path = require("path");
 
-const DEFAULT_EXTENSIONS = prettier.getSupportInfo
-  ? prettier
-      .getSupportInfo()
-      .languages.map(l => l.extensions)
-      .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
-  : [
+
+   [
       ".css",
       ".graphql",
       ".js",
@@ -24,11 +20,8 @@ const DEFAULT_EXTENSIONS = prettier.getSupportInfo
 
 const DEFAULT_ENCODING = "utf-8";
 
-const DEFAULT_CONFIG_FILE = `${process.cwd()}/.prettierrc`;
 
-module.exports = class PrettierPlugin {
-  constructor(options) {
-    options = options || {};
+
 
     // Encoding to use when reading / writing files
     this.encoding = options.encoding || DEFAULT_ENCODING;
@@ -43,23 +36,18 @@ module.exports = class PrettierPlugin {
     delete options.configFile;
     
     // Resolve the config options from file to an object
-    const configOptions = prettier.resolveConfig.sync(this.configFile) || {};
+   
     
-    // Override Prettier options from config if any are specified
-    this.prettierOptions = Object.assign(configOptions, options);
+    
     
     // Fail silently
     this.failSilently = options.failSilently || false;
     delete options.failSilently;
 }
 
-apply(compiler) {
-    compiler.hooks.emit.tapAsync('Prettier', (compilation, callback) => {
-        const promises = [];
-      compilation.fileDependencies.forEach(filepath => {
-        if (this.extensions.indexOf(path.extname(filepath)) === -1) {
-          return;
-        }
+ 
+    
+        
   
         if (/node_modules/.exec(filepath)) {
           return;
@@ -70,13 +58,8 @@ apply(compiler) {
                 return reject(err);
             }
             
-            try{
-              const prettierSource = prettier.format(source, Object.assign({}, this.prettierOptions, { filepath }));
-              if (prettierSource !== source) {
-                fs.writeFile(filepath, prettierSource, this.encoding, err => {
-                  if (err) {
-                    return reject(err);
-                  }
+            
+              
                   resolve();
                 });
               } else {
