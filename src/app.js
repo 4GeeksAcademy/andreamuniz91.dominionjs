@@ -4,25 +4,28 @@ import "./style.css";
 import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
 
+
 window.onload = function() {
-  let pronoun = ["the", "our"];
-  let adj = ["great", "big"];
-  let noun = ["jogger", "racoon"];
-  let dom = [".com", ".es"]
-  function generadorDominio(pronoun, adj, noun, dom,) {
-    let dominio = [];
+  function generatorDomain(pronoun, adjetive, noun, domains,) {
+    let domain = [];
     for (let p of pronoun) {
-      for (let a of adj) {
+      for (let a of adjetive) {
         for (let n of noun) {
-          for (let d of dom)
-          dominio.push(`${p}${a}${n}${d}`);
+          for (let d of domains)
+            domain.push(`${p}${a}${n}${d}`);
         }
       }
     }
-    return dominio;
+    return domain;
   }  
-  let domainNames = generadorDominio(pronoun, adj, noun, dom);
+
+
+  let pronoun = ["the", "our"];
+  let adjetive = ["great", "big"];
+  let noun = ["jogger", "racoon"];
+  let domains = [".com", ".es"]
+  let domainNames = generatorDomain(pronoun, adjetive, noun, domains);
   domainNames.map(domain => {
-    document.querySelector("#dominio").innerHTML += "<li>" + domain + "</li>";
+    document.querySelector("#list-domain").innerHTML += "<li>" + domain + "</li>";
   });
 };
